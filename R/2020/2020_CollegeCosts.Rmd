@@ -38,30 +38,52 @@ tuition_cost_clean <- tuition_cost %>%
   rename(state_abbr = state_code) #rename the state_code column to state_abbr
 ```
 
-```{r EDA Tuition Cost}
-colnames(tuition_cost_clean)
-# [1] "name"                 "state"                "state_abbr"           "type"                 "degree_length"       
-# [6] "room_and_board"       "in_state_tuition"     "in_state_total"       "out_of_state_tuition" "out_of_state_total"  
-
+```{r NA Counts}
 ##NA counts
 
-na_count <- tuition_cost_clean %>% #tidyverse option
+#tidyverse approach
+na_count <- tuition_cost_clean %>% 
   summarise_all(~ sum(is.na(.)/nrow(tuition_cost_clean)))
 #room_and_board has 1,094 NA's, or 0.367% - enough NA's to not prioritize in this analysis
 #state has 52 NA's, or 0.017% - not a big deal
 
-na_counts <- sapply(tuition_cost_clean, function(x) sum(length(which(is.na(x))))/nrow(tuition_cost_clean)) #base option
+#base approach 
+na_counts <- sapply(tuition_cost_clean, function(x) sum(length(which(is.na(x))))/nrow(tuition_cost_clean))
+```
 
+```{r EDA Tuition Cost}
+colnames(tuition_cost_clean)
+# [1] "name"                 "state"                "state_abbr"           "type"                 "degree_length"       
+# [6] "room_and_board"       "in_state_tuition"     "in_state_total"       "out_of_state_tuition" "out_of_state_total" 
 
-##Counts to get the mode of the various data features
+##Looka at the distributions
+
+#in_state_total
+tuition_cost_clean %>% 
+  ggplot(aes(in_state_total)) +
+  geom_histogram(bins = 100) +
+  scale_x_continuous(labels = scales::comma) #majority of tuition is between $0 and $20,000
+
+#out-of-state-total
+tuition_cost_clean %>% 
+  ggplot(aes(out_of_state_total)) +
+  geom_histogram(bins = 100) +
+  scale_x_continuous(labels = scales::comma) #majority of tuition is between $0 and $20,000
+
+##I begin my EDA with counts to get the mode of the various data features. 
 
 tuition_cost_clean %>% 
   count(state, sort = TRUE)
 #California has the most recorded observations
+
 tuition_cost_clean %>% 
   count(state) %>% 
   arrange(n)
-#Alaska, Wyoming, and Delaware has the least amount of recorded observations.  
+#Alaska, Wyoming, and Delaware has the least amount of recorded observations.   
 
+tuition_cost_clean %>% 
+  filter(degree_length == "4 Year") %>% 
+  arrange(desc(in_state_total)) %>% 
+  ggplot(aes())
 ```
 

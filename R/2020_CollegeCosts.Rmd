@@ -33,6 +33,6 @@ theme_set(theme_light()) #my default theme inspired by the talented David Robins
 #tuition_cost seems like a good start.
 
 glimpse(tuition_cost) #2,973 rows & 10 columns
-summary(tuition_cost) #large range between the lowest and highest costs.
+summary(tuition_cost) #large range between the lowest and highest costs.  
 ```
 

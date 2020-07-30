@@ -61,7 +61,7 @@ tuition_cost_clean %>%
 tuition_cost_clean %>% 
   count(state) %>% 
   arrange(n)
-#Alaska, Wyoming, and Delaware has the least amount of recorded observations. 
+#Alaska, Wyoming, and Delaware has the least amount of recorded observations.  
 
 ```
 

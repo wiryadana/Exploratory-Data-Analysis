@@ -1,3 +1,3 @@
-# <div align="center"> <p>#Data Visualizations</p> </br> 📧  [Email](mailto:EricFletcher3@gmail.com) | 💬  [Twitter](https://twitter.com/Kodak_Landscape) | 👔  [LinkedIn](https://www.linkedin.com/in/EricFletcher3/)</div>
+# <div align="center"> <p>#Exploratory Data Analysis</p> </br> 📧  [Email](mailto:EricFletcher3@gmail.com) | 💬  [Twitter](https://twitter.com/iamericfletcher) | 👔  [LinkedIn](https://www.linkedin.com/in/iamericfletcher/) | [Blog](https://ericfletcher.netlify.app/)</div> 
 
-Random data visualization projects in order to better my understanding on how to summarize and arrange data to make meaningful charts with `{ggplot2}`, `{tidyr},` `{dplyr}`, and other tools in the [tidyverse](https://www.tidyverse.org/) ecosystem.
+Personal EDA projects in order to deepen my understanding of interesting topics and improve my data manipulation, visualization, and statistical analysis skills.

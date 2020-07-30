@@ -28,10 +28,40 @@ library(scales)
 theme_set(theme_light()) #my default theme inspired by the talented David Robinson (https://www.youtube.com/channel/UCeiiqmVK07qhY-wvg3IZiZQ)
 ```
 
-```{r Inspect Raw Data}
+```{r Raw Data Inspection / Manipulations}
 #tuition_cost seems like a good start.
 
 glimpse(tuition_cost) #2,973 rows & 10 columns
-summary(tuition_cost) #large range between the lowest and highest costs.
+summary(tuition_cost) #large range between the lowest and highest costs
+
+tuition_cost_clean <- tuition_cost %>% 
+  rename(state_abbr = state_code) #rename the state_code column to state_abbr
+```
+
+```{r EDA Tuition Cost}
+colnames(tuition_cost_clean)
+# [1] "name"                 "state"                "state_abbr"           "type"                 "degree_length"       
+# [6] "room_and_board"       "in_state_tuition"     "in_state_total"       "out_of_state_tuition" "out_of_state_total"  
+
+##NA counts
+
+na_count <- tuition_cost_clean %>% #tidyverse option
+  summarise_all(~ sum(is.na(.)/nrow(tuition_cost_clean)))
+#room_and_board has 1,094 NA's, or 0.367% - enough NA's to not prioritize in this analysis
+#state has 52 NA's, or 0.017% - not a big deal
+
+na_counts <- sapply(tuition_cost_clean, function(x) sum(length(which(is.na(x))))/nrow(tuition_cost_clean)) #base option
+
+
+##Counts to get the mode of the various data features
+
+tuition_cost_clean %>% 
+  count(state, sort = TRUE)
+#California has the most recorded observations
+tuition_cost_clean %>% 
+  count(state) %>% 
+  arrange(n)
+#Alaska, Wyoming, and Delaware has the least amount of recorded observations. 
+
 ```
 

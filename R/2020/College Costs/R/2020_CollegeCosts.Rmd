@@ -92,8 +92,8 @@ tuition_cost_clean %>%
   geom_segment(aes(x = name, xend = name, y = 0, yend = in_state_total))+
   coord_flip()+
   scale_y_continuous(labels = scales::"comma")+
-  labs(title = "Most Expensive 4-Year Colleges",
-       subtitle = "2018-2019: In-State Total (sum of room & board + tuition)",
+  labs(title = "2018-2019: Most Expensive 4-Year Colleges",
+       subtitle = "In-State Total (sum of room & board + tuition)",
        x = "",
        y = "Cost (USD)")
   

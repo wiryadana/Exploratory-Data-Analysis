@@ -96,7 +96,7 @@ tuition_cost_clean %>%
 tuition_cost_clean %>% 
   filter(!is.na(room_and_board),
          degree_length == "4 Year",
-         type == "Private") %>% 
+         type == "Private") %>% #change to Public for public colleges 
   arrange(state, desc(in_state_total)) %>%
   group_by(state_abbr) %>% 
   slice(which.max(in_state_total), which.min(in_state_total)) %>% 

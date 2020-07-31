@@ -28,9 +28,10 @@ library(scales)
 theme_set(theme_light()) #my default theme inspired by the talented David Robinson (https://www.youtube.com/channel/UCeiiqmVK07qhY-wvg3IZiZQ)
 ```
 
-```{r Raw Data Inspection / Manipulations}
+```{r Raw Data Inspection / Global Manipulations}
 #tuition_cost seems like a good start.
-options(scipen = 999)
+options(scipen = 999,
+        digits = 3)
 
 glimpse(tuition_cost) #2,973 rows & 10 columns
 summary(tuition_cost) #large range between the lowest and highest costs
@@ -71,21 +72,11 @@ tuition_cost_clean %>%
   geom_histogram(bins = 100) +
   scale_x_continuous(labels = scales::comma) #majority of tuition is between $0 and $20,000
 
-##Continue EDA with counts to get the mode of the various data features. 
-
+##Look at the counts for the various features that comprise the data. Try and use it to inform your questions.
 tuition_cost_clean %>% 
-  count(state, sort = TRUE)
-#California has the most recorded observations
+  count()
 
-tuition_cost_clean %>% 
-  count(state) %>% 
-  arrange(n)
-#Alaska, Wyoming, and Delaware has the least amount of recorded observations.   
-
-
-##QUESTION: What are the most expensive colleges in the US by in-state total?
-
-#2018-2019: Most Expensive 4-Year Colleges Plot
+##QUESTION: What are the most expensive 4-year colleges in the US by in-state total?
 tuition_cost_clean %>% 
   mutate(name = reorder(name, in_state_total)) %>% 
   filter(degree_length == "4 Year") %>% 
@@ -101,16 +92,43 @@ tuition_cost_clean %>%
        x = "",
        y = "Cost (USD)")
 
-##QUESTION: Most expensive and inexpensive colleges per state?
+##QUESTION: Percent difference between the most expensive and inexpensive colleges per state with costs that include both tuition AND room and board?
 tuition_cost_clean %>% 
   filter(!is.na(room_and_board),
-         degree_length == "4 Year") %>% 
+         degree_length == "4 Year",
+         type == "Private") %>% 
   arrange(state, desc(in_state_total)) %>%
   group_by(state_abbr) %>% 
   slice(which.max(in_state_total), which.min(in_state_total)) %>% 
-  mutate(pct_change = -diff(in_state_total) / max(in_state_total)) %>% #percent change to create a ranking for plot
-  arrange(desc(pct_change)) %>% 
+  mutate(pct_change = round(-diff(in_state_total) / max(in_state_total),4)) %>% #percent change to create a ranking for plot
   ungroup() %>% 
-  top_n(n = 30, wt = pct_change) %>% 
-  select(name, state_abbr, in_state_total, pct_change)
+  top_n(n = 24, wt = pct_change) %>% 
+  select(name, state_abbr, in_state_total, pct_change) %>% 
+  mutate(label=paste(pct_change * 100,"%"),
+         label = factor(label, levels = unique(label[order(-pct_change)]))) %>% 
+  ggplot(aes(x = state_abbr, y = in_state_total, fill = name))+
+  geom_bar(stat = "identity", position = "dodge", width = 0.4)+
+  facet_wrap(~label, scales = "free")+
+  labs(title = "Percent Difference Between Highest and Lowest Costing Private 4-Year Colleges",
+       subtitle = "By State, Sum of Room & Board + Tuition (2018-2019)",
+       x = "State",
+       y = "In-State Total Cost")+
+  theme(legend.position = "none",
+        strip.text = element_text(color = "black", face = "bold", size = 10),
+        plot.title = element_text(size = 12),
+        plot.subtitle = element_text(size = 10),
+        axis.text.y = element_text(size = 10),
+        axis.text.x = element_text(size = 10),
+        axis.title.y = element_text(size = 12),
+        axis.title.x = element_text(size = 12))+
+  scale_y_continuous(labels = scales::dollar)
+
+```
+```{r}
+structure(list(`CCGCode` = c("E38000232", "E38000237", 
+"E38000004", "E38000240", "E38000006", "E38000007"), Total = c(17, 
+27, 27, 43, 30, 42)), row.names = c(NA, -6L), class = c("data.frame")) %>% 
+  gsub('(...)$|.', '\\1', CCGCode)
+
+gsub
 ```

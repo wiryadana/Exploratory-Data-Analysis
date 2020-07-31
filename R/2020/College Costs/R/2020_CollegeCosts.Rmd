@@ -44,8 +44,8 @@ tuition_cost_clean <- tuition_cost %>%
 
 #tidyverse approach
 na_count <- tuition_cost_clean %>% 
-  summarise_all(~ sum(is.na(.)/nrow(tuition_cost_clean)))
-#room_and_board has 1,094 NA's, or 0.367% - enough NA's to not prioritize in this analysis
+  summarise_all(~ sum(is.na(.)/nrow(tuition_cost_clean))) 
+#room_and_board has 1,094 NA's, or 0.367% of the included colleges do not have room and board available
 #state has 52 NA's, or 0.017% - not a big deal
 
 #base approach 
@@ -82,6 +82,10 @@ tuition_cost_clean %>%
   arrange(n)
 #Alaska, Wyoming, and Delaware has the least amount of recorded observations.   
 
+
+##QUESTION: What are the most expensive colleges in the US by in-state total?
+
+#2018-2019: Most Expensive 4-Year Colleges Plot
 tuition_cost_clean %>% 
   mutate(name = reorder(name, in_state_total)) %>% 
   filter(degree_length == "4 Year") %>% 
@@ -96,6 +100,17 @@ tuition_cost_clean %>%
        subtitle = "In-State Total (sum of room & board + tuition)",
        x = "",
        y = "Cost (USD)")
-  
-```
 
+##QUESTION: Most expensive and inexpensive colleges per state?
+tuition_cost_clean %>% 
+  filter(!is.na(room_and_board),
+         degree_length == "4 Year") %>% 
+  arrange(state, desc(in_state_total)) %>%
+  group_by(state_abbr) %>% 
+  slice(which.max(in_state_total), which.min(in_state_total)) %>% 
+  mutate(pct_change = -diff(in_state_total) / max(in_state_total)) %>% #percent change to create a ranking for plot
+  arrange(desc(pct_change)) %>% 
+  ungroup() %>% 
+  top_n(n = 30, wt = pct_change) %>% 
+  select(name, state_abbr, in_state_total, pct_change)
+```

@@ -30,8 +30,6 @@ theme_set(theme_light()) #my default theme inspired by the talented David Robins
 
 ```{r Raw Data Inspection / Global Manipulations}
 #tuition_cost seems like a good start.
-options(scipen = 999,
-        digits = 3)
 
 glimpse(tuition_cost) #2,973 rows & 10 columns
 summary(tuition_cost) #large range between the lowest and highest costs
@@ -96,7 +94,7 @@ tuition_cost_clean %>%
 tuition_cost_clean %>% 
   filter(!is.na(room_and_board),
          degree_length == "4 Year",
-         type == "Private") %>% #change to Public for public colleges 
+         type == "Public") %>% #change to Private for private colleges 
   arrange(state, desc(in_state_total)) %>%
   group_by(state_abbr) %>% 
   slice(which.max(in_state_total), which.min(in_state_total)) %>% 
@@ -109,7 +107,7 @@ tuition_cost_clean %>%
   ggplot(aes(x = state_abbr, y = in_state_total, fill = name))+
   geom_bar(stat = "identity", position = "dodge", width = 0.4)+
   facet_wrap(~label, scales = "free")+
-  labs(title = "Percent Difference Between Highest and Lowest Costing Private 4-Year Colleges",
+  labs(title = "Percent Difference Between Highest and Lowest Costing Public 4-Year Colleges",
        subtitle = "By State, Sum of Room & Board + Tuition (2018-2019)",
        x = "State",
        y = "In-State Total Cost")+
@@ -124,11 +122,4 @@ tuition_cost_clean %>%
   scale_y_continuous(labels = scales::dollar)
 
 ```
-```{r}
-structure(list(`CCGCode` = c("E38000232", "E38000237", 
-"E38000004", "E38000240", "E38000006", "E38000007"), Total = c(17, 
-27, 27, 43, 30, 42)), row.names = c(NA, -6L), class = c("data.frame")) %>% 
-  gsub('(...)$|.', '\\1', CCGCode)
 
-gsub
-```

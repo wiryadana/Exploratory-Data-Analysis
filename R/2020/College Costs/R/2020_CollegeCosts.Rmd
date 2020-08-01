@@ -71,7 +71,7 @@ bar <- foo %>%
   #facet_wrap(~career_stage)+
   scale_x_continuous(labels = scales::dollar)+
   scale_fill_discrete(labels = c("Early", "Middle"))+
-  labs(title = "Which States Produce the Highest Paid College Graduates?",
+  labs(title = "Which States Produce the Highest-Paid College Graduates?",
        subtitle = "Early vs. Mid Career Pay",
        fill = "Career Stage",
        x = "Median Pay", 

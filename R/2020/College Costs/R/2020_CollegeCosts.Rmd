@@ -72,11 +72,11 @@ bar <- foo %>%
   scale_x_continuous(labels = scales::dollar)+
   scale_fill_discrete(labels = c("Early", "Middle"))+
   labs(title = "Which States Produce the Highest-Paid College Graduates?",
-       subtitle = "Early vs. Mid Career Pay",
+       subtitle = "Early and Middle Career Pay",
        fill = "Career Stage",
        x = "Median Pay", 
        y = "State",
-       caption = "Data: College Salary Report, 2019 | Visualization: Eric Fletcher")+
+       caption = "Data: College Salary Report, 2019 | Visualization: @ImmediateFishing8")+
   theme(panel.grid.major.y = element_blank(),
         plot.margin = margin(6,12,6,12),
         #legend.position = "NONE",
@@ -100,5 +100,5 @@ bar <- foo %>%
           color = "black"))
 
 #save plot
-ggsave("pay_by_career_stage.png",plot=bar, dpi= 300, type = "cairo")  
+ggsave("pay_by_career_stage_reddit.png",plot=bar, dpi= 300, type = "cairo")  
 ```

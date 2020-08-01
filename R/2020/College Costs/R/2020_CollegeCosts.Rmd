@@ -122,4 +122,32 @@ tuition_cost_clean %>%
   scale_y_continuous(labels = scales::dollar)
 
 ```
+```{r}
+#summary data frame ahead of plotting
+salary_mean <- salary_potential %>%
+  mutate(grand_total_pay = early_career_pay + mid_career_pay,
+         grand_mean = mean(grand_total_pay, na.rm = TRUE)) %>% 
+  group_by(state_name) %>% 
+  summarise(early_career_mean = mean(early_career_pay, na.rm = TRUE),
+            mid_career_mean = mean(mid_career_pay, na.rm = TRUE),
+            avg_early_mid = (early_career_mean + mid_career_mean) / 2)
 
+#which state has the highest early career pay? - California ($67,232.00)
+salary_mean %>% 
+  arrange(desc(early_career_mean))
+
+#which state has the lowest early career pay? - Mississippi ($42,042.86)
+salary_mean %>% 
+  arrange(early_career_mean)
+
+#which state has the highest mid career pay? - California ($123,976.00)
+salary_mean %>% 
+  arrange(desc(mid_career_mean))
+
+#which state has the lowest mid career pay? - Mississippi ($75,707.14)
+salary_mean %>% 
+  arrange(mid_career_mean)
+
+
+
+```

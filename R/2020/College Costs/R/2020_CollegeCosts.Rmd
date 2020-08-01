@@ -77,7 +77,7 @@ bar <- foo %>%
   labs(title = "Which States Produce the Highest Paid College Graduates?",
        subtitle = "Early vs. Mid Career Pay",
        fill = "Career Stage",
-       x = "Median Pay",
+       x = "Median Pay", 
        y = "State",
        caption = "Data: College Salary Report, 2019 | Visualization: Eric Fletcher")+
   theme(panel.grid.major.y = element_blank(),

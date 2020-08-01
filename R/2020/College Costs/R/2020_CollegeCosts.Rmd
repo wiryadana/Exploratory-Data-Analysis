@@ -97,7 +97,7 @@ bar <- foo %>%
           hjust = 0.5,
           #face = "bold",
           #size = 17, 
-          color = "black"))n
+          color = "black"))
 
 #save plot
 ggsave("pay_by_career_stage_reddit.png",plot=bar, dpi= 300, type = "cairo")  

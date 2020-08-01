@@ -37,14 +37,11 @@ summary(salary_potential) #large range between the lowest and highest costs
 ```
 
 ```{r NA Counts}
-##NA counts
+##NA counts - NAs look good
 
 #tidyverse approach
 na_count_tidyverse <- salary_potential %>% 
   summarise_all(~ sum(is.na(.)/nrow(salary_potential))) 
-
-#room_and_board has 1,094 NA's, or 0.367% of the included colleges do not have room and board available
-#state has 52 NA's, or 0.017% - not a big deal
 
 #base approach 
 na_counts_base <- sapply(salary_potential, function(x) sum(length(which(is.na(x))))/nrow(salary_potential))

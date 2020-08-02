@@ -108,8 +108,6 @@ ggsave("pay_by_career_stage_reddit.png",plot=bar, dpi= 300, type = "cairo")
 #summary data for use in plotting
 foo_2 <- salary_potential %>% 
   select(name, state_name, early_career_pay, mid_career_pay) %>% 
-  group_by(state_name, name) %>% 
-  #mutate(early_middle_diff = -(median_early_pay - median_middle_pay)) %>% 
   group_by(state_name) %>% 
   arrange(state_name, (desc(mid_career_pay))) %>% 
   slice(1) %>% 
@@ -131,7 +129,7 @@ ggplot(aes(y = state_school))+
        x = "",
        y = "",
        fill = "Career Stage",
-       caption = "Data: College Salary Report, 2019 | Visualization: @ImmediateFishing8")+
+       caption = "Data: College Salary Report, 2019 | Visualization: Eric Fletcher")+
   theme(plot.margin = margin(15,20,15,20),
         axis.text = element_text(size = 14),
         axis.title = element_text(size = 16),
@@ -156,5 +154,5 @@ ggplot(aes(y = state_school))+
           size = 11, 
           color = "black"))
   
-ggsave("pay_by_school_state_reddit.png",plot=foo_2_plot, dpi= 300, type = "cairo", width = 13, height = 15)
+ggsave("pay_by_school_state.png",plot=foo_2_plot, dpi= 300, type = "cairo", width = 13, height = 15)
 ```

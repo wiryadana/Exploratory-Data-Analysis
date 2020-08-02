@@ -4,4 +4,4 @@
 ![pay_by_career_stage](https://user-images.githubusercontent.com/64165327/89110311-79249b80-d417-11ea-9b08-4fd56dd8f423.png)
 
 ### What Schools Did the Highest Earning Alumni Attend? | [Code](https://github.com/iamericfletcher/Exploratory-Data-Analysis/blob/master/R/2020/College%20Costs/R/2020_CollegeCosts.Rmd) | [Data](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-03-10/readme.md)
-![pay_by_school_state](https://user-images.githubusercontent.com/64165327/89128053-ca3c9a00-d4c0-11ea-9159-a8b70275d1ac.png)
+![pay_by_school_state](https://user-images.githubusercontent.com/64165327/89128250-661ad580-d4c2-11ea-8816-f5a056970901.png)

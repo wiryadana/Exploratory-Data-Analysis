@@ -124,7 +124,7 @@ ggplot(aes(y = state_school))+
   geom_point(aes(x = pay, fill = pay_stage), size = 4, pch = 21)+
   scale_x_continuous(labels = scales::dollar)+
   scale_fill_discrete(labels = c("Early: 0-5 Yr. Exp.", "Middle: 10+ Yr. Exp."))+
-  labs(title = "What Colleges Did the Highest Earning Alumni Attend?",
+  labs(title = "What Colleges Did the Highest-Earning Alumni Attend?",
        subtitle = "The Top College Per State by Median Salary in 2019",
        x = "",
        y = "",

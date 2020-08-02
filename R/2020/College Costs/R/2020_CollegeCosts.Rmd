@@ -48,7 +48,7 @@ na_counts_base <- sapply(salary_potential, function(x) sum(length(which(is.na(x)
 
 ```
 
-```{r EDA Salary Potential}
+```{r EDA Salary Potential - 1}
 ##Which states produce the highest paid college graduates?
 
 #summary data frame ahead of plotting
@@ -98,7 +98,65 @@ bar <- foo %>%
           #face = "bold",
           #size = 17, 
           color = "black"))
+bar
 
-#save plot
 ggsave("pay_by_career_stage_reddit.png",plot=bar, dpi= 300, type = "cairo")  
+```
+```{r EDA Salary Potential - 2}
+##For each state, what are the colleges that report the highest alumni earnings?
+
+#summary data for use in plotting
+foo_2 <- salary_potential %>% 
+  select(name, state_name, early_career_pay, mid_career_pay) %>% 
+  group_by(state_name, name) %>% 
+  summarise(median_early_pay = median(early_career_pay),
+            median_middle_pay = median(mid_career_pay)) %>% 
+  #mutate(early_middle_diff = -(median_early_pay - median_middle_pay)) %>% 
+  group_by(state_name) %>% 
+  arrange(state_name, (desc(median_early_pay))) %>% 
+  slice(1) %>% 
+  arrange(desc(median_early_pay)) %>% 
+  unite(col = state_school, c(state_name, name), sep = " - ")
+foo_2 
+
+foo_2$state_school <- fct_reorder(foo_2$state_school, foo_2$median_middle_pay)
+
+foo_2_plot <- foo_2 %>% 
+pivot_longer(cols = c(median_early_pay, median_middle_pay), names_to = "pay_stage", values_to = "pay") %>% 
+ggplot(aes(y = state_school))+
+  geom_line(aes(x = pay))+
+  geom_point(aes(x = pay, fill = pay_stage), size = 4, pch = 21)+
+  scale_x_continuous(labels = scales::dollar)+
+  scale_fill_discrete(labels = c("Early: 0-5 Yr. Exp.", "Middle: 10+ Yr. Exp."))+
+  labs(title = "What Schools Did the Highest Earning Alumni Attend?",
+       subtitle = "The Top School Per State by Median Pay in 2019",
+       x = "Pay",
+       y = "",
+       fill = "Career Stage",
+       caption = "Data: College Salary Report, 2019 | Visualization: Eric Fletcher")+
+  theme(plot.margin = margin(15,20,15,20),
+        axis.text = element_text(size = 14),
+        axis.title = element_text(size = 16),
+        legend.title = element_text(size = 15),
+        legend.text = element_text(size = 14),
+        plot.title = element_text(
+          #family = "Trochut",
+          hjust = 0.5,
+          face = "bold",
+          size = 19, 
+          color = "black"),
+        plot.subtitle = element_text(
+          #family = "Trochut",
+          hjust = 0.5,
+          #face = "bold",
+          size = 17, 
+          color = "black"),
+       plot.caption = element_text(
+         #family = "Tomorrow",
+          hjust = 0.5,
+          #face = "bold",
+          size = 11, 
+          color = "black"))
+  
+ggsave("pay_by_school_state.png",plot=foo_2_plot, dpi= 300, type = "cairo", width = 13, height = 15)
 ```

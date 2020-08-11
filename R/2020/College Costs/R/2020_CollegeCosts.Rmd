@@ -103,7 +103,7 @@ bar
 ggsave("pay_by_career_stage_reddit.png",plot=bar, dpi= 300, type = "cairo")  
 ```
 ```{r EDA Salary Potential - 2}
-##For each state, what are the colleges that report the highest alumni earnings?
+##For each state, which college reports the highest alumni earnings?
 
 #summary data for use in plotting
 foo_2 <- salary_potential %>% 
@@ -153,6 +153,10 @@ ggplot(aes(y = state_school))+
           #face = "bold",
           size = 11, 
           color = "black"))
+foo_2_plot
   
 ggsave("pay_by_school_state.png",plot=foo_2_plot, dpi= 300, type = "cairo", width = 13, height = 15)
 ```
+
+
+

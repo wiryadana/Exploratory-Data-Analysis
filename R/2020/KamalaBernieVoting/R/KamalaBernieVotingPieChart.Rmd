@@ -31,7 +31,7 @@ bar <- ggplot(df2, aes(x= "", y=Percent, fill = Vote)) +
   geom_text(aes(y = Percent, label = paste0(Percent, "%")), color = "black", size=10,
             position = position_stack(vjust = 0.5))+
   labs(title = "How Often Did Kamala Harris Vote with Bernie Sanders in 2017-18",
-             caption = "Data: ProPublica | Visualization: Eric Fletcher",
+             caption = "Data: ProPublica | Visualization: @ImmediateFishing8",
              fill = "Outcome")+
   theme(plot.margin=unit(c(1,1,1,1),"cm"),
     plot.title = element_text(
@@ -52,6 +52,6 @@ ggsave(bar,
        width = 15,
        height = 12,
        dpi = 300, 
-       file="kamala_bernie_voting.png", 
+       file="kamala_bernie_voting_reddit.png", 
        type="cairo-png")
 ```

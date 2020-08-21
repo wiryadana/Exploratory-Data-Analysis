@@ -1,0 +1,88 @@
+---
+title: "Apple Mobility Trend"
+author: "Eric Fletcher"
+date: "8/20/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+library(tidyverse)
+library(scales)
+library(lubridate)
+library(ggtext)
+library(showtext)
+font_add_google("Noto Serif TC", "Noto Serif TC")
+showtext_auto()
+theme_set(theme_minimal())
+
+```
+```{r}
+#//data source: https://covid19.apple.com/mobility
+
+df <- read_csv("Apple_Mobility_Trend.csv")
+
+p <- df %>%
+  #//subset the data
+  filter(country == "United States" | region == "United States" | alternative_name ==                                                                     "USA")%>% 
+  #//change data set from wide to long for use in statistical summary and plotting
+  pivot_longer(cols = starts_with("2020"), names_to = "date", values_to = "relative_volume") %>% 
+  filter(!is.na(relative_volume)) %>% 
+  mutate(date = as.Date(date), #change date column to date class
+         month = months(date)  #add month name column
+         ) %>% 
+  group_by(date, transportation_type) %>% 
+  summarise(mean_relative_volume = mean(relative_volume)) %>% 
+         #//create percent change from January 13, 2020 baseline 
+  mutate(percent_change = (mean_relative_volume-100)/100,
+         #//rename factor levels for use in legend (capitalization)
+         transportation_type = fct_recode(transportation_type,
+                                          "Driving" = "driving",
+                                          "Walking" = "walking",
+                                          "Transit" = "transit"))
+
+#//reorder factor levels for use in legend
+p$transportation_type <- factor(p$transportation_type, levels = c("Driving",
+                                                                  "Walking",
+                                                                  "Transit")) 
+
+p %>%  
+  ggplot(aes(x = date, y = percent_change, color = transportation_type)) +
+  geom_line() +
+  geom_hline(yintercept=0) +
+  scale_x_date(date_labels="%b",date_breaks  ="1 month") +
+  scale_y_continuous(labels = scales::percent)+
+  scale_color_manual(values = c("#F78200", "#E23838", "#009CDF")) + 
+  labs(title = "Apple Mobility Trends",
+       subtitle = "Change in Routing Requests Since January 13, 2020\nUnited States",
+       x = "",
+       y = "",
+       caption = "Data Source: Apple | Visualization: Eric Fletcher",
+       color = "")+
+  theme(plot.margin = unit(c(1,1,1,1), "cm"),
+        legend.position = "right",
+        plot.title = element_text(
+          family = "Noto Serif TC",
+          hjust = 0.5,
+          size = 20
+        ),
+        plot.subtitle = element_text(
+          family = "Noto Serif TC",
+          hjust = 0.5,
+          size = 8
+        ),
+        plot.caption = element_text(
+          family = "Noto Serif TC",
+          hjust = 0.5,
+          size = 7
+        ),
+        axis.text.x = element_text(family = "Noto Serif TC",
+                                   size = 7),
+        axis.text.y = element_text(family = "Noto Serif TC",
+                                   size = 7),
+        legend.text = element_text(family = "Noto Serif TC",
+                                   size = 7))
+```
+
